@@ -3,10 +3,24 @@ on:
     branches:
       - master
 jobs:
-  publish:
+  publish-jtd-codegen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login --password-stdin -u jsontypedefgithubbot
+      - run: docker build -t jsontypedef/jtd-codegen:$(cat jtd-codegen/VERSION) --build-arg version=$(cat jtd-codegen/VERSION) jtd-codegen
+      - run: docker push jsontypedef/jtd-codegen:$(cat jtd-codegen/VERSION)
+  publish-jtd-fuzz:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - run: echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login --password-stdin -u jsontypedefgithubbot
       - run: docker build -t jsontypedef/jtd-fuzz:$(cat jtd-fuzz/VERSION) --build-arg version=$(cat jtd-fuzz/VERSION) jtd-fuzz
       - run: docker push jsontypedef/jtd-fuzz:$(cat jtd-fuzz/VERSION)
+  publish-jtd-infer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login --password-stdin -u jsontypedefgithubbot
+      - run: docker build -t jsontypedef/jtd-infer:$(cat jtd-infer/VERSION) --build-arg version=$(cat jtd-infer/VERSION) jtd-infer
+      - run: docker push jsontypedef/jtd-infer:$(cat jtd-infer/VERSION)
