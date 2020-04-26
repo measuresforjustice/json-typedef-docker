@@ -7,6 +7,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login -u jsontypedefgithubbot
+      - run: echo ${{ secrets.DOCKER_ACCESS_TOKEN }} | docker login --password-stdin -u jsontypedefgithubbot
       - run: docker build -t jsontypedef/jtd-fuzz:$(cat jtd-fuzz/VERSION) --build-arg version=$(cat jtd-fuzz/VERSION) jtd-fuzz
       - run: docker push jsontypedef/jtd-fuzz:$(cat jtd-fuzz/VERSION)
