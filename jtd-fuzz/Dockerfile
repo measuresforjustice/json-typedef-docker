@@ -1,10 +1,10 @@
-FROM rust:1.41.0 AS build
+FROM ubuntu:18.04 AS build
 ARG version
 
-RUN apt-get update && apt-get install -y musl-tools
-RUN rustup target install x86_64-unknown-linux-musl
-RUN cargo install --target=x86_64-unknown-linux-musl jtd-fuzz --version $version
+RUN apt-get update && apt-get install unzip
+ADD https://github.com/jsontypedef/json-typedef-fuzz/releases/download/$version/x86_64-unknown-linux-musl.zip /x86_64-unknown-linux-musl.zip
+RUN unzip x86_64-unknown-linux-musl.zip
 
 FROM scratch
-COPY --from=build /usr/local/cargo/bin/jtd-fuzz /
+COPY --from=build /jtd-fuzz /jtd-fuzz
 ENTRYPOINT ["/jtd-fuzz"]
