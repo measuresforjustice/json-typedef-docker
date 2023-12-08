@@ -1,6 +1,5 @@
 name: Build and Deploy Docker Image to Nexus
 on:
-  push:
   workflow_dispatch:
     inputs:
       version:
@@ -13,7 +12,7 @@ jobs:
   build-and-deploy-nexus:
     runs-on: self-hosted-ubuntu-latest
     permissions:
-      id-token: read
+      id-token: write
       contents: write   
     steps:
         - name: Calc Build
