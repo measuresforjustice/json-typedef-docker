@@ -1,0 +1,19 @@
+name: Build and Deploy Docker Image to Nexus
+on:
+  # push:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: Released version of jtd-codegen to retrieve from public repo and build into the docker image
+        required: true
+        default: v0.4.1
+
+jobs:
+  workflow-run:
+    secrets: inherit
+    uses: measuresforjustice/docker-builds/.github/workflows/build-and-push-single.yml@main
+    with:
+      image: jsontypedef/jtd-codegen
+      jdt-codegen-version: v0.4.1
+   
