@@ -15,5 +15,4 @@ jobs:
    uses: measuresforjustice/docker-builds/.github/workflows/build-and-push-single.yml@main
    with:
       image: jsontypedef/jtd-codegen
-      jdt-codegen-version: 'v0.4.1'
-      
+      jdt-codegen-version: v0.4.1
