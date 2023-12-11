@@ -16,3 +16,4 @@ jobs:
    with:
       image: jsontypedef/jtd-codegen
       jdt-codegen-version: 'v0.4.1'
+      
