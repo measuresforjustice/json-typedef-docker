@@ -11,7 +11,7 @@ on:
 
 jobs:
   workflow-run:
-   secrets: inherit
+   #secrets: inherit
    uses: measuresforjustice/docker-builds/.github/workflows/build-and-push-single.yml@main
    with:
       image: jsontypedef/jtd-codegen
