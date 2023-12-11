@@ -10,43 +10,9 @@ on:
         default: v0.4.1
 
 jobs:
-  build-and-deploy-nexus:
-    runs-on: self-hosted-ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write   
-    steps:
-        - name: Calc Build
-          id: calc
-          run: |
-            BUILD_NUM=$((${{ env.OLD_BUILD }}+${{ github.run_number }}))
-            echo "Build Number: $BUILD_NUM"
-            echo "build-num=$BUILD_NUM" >> $GITHUB_OUTPUT
-          shell: bash
-          
-        - name: Checkout
-          uses: actions/checkout@v4
-        
-        - name: Login to MFJ Nexus Docker registry
-          uses: docker/login-action@v3
-          with:
-            registry: docker.mfj.io
-            username: jenkins # This is docker.mfj.io username we're using
-            password: ${{ secrets.NEXUS_PUSH_RW_PASSWORD }} # docker.mfj.io jenkins password (stored as GH secret)
-        
-        # - name: Build and Push to MFJ Nexus Docker Registry
-        #   env:
-        #     VERSION: ${{ inputs.version }}
-        #   run: |
-        #     docker build --pull --no-cache -t docker.mfj.io/jsontypedef/jtd-codegen:$VERSION --build-arg version=$VERSION jtd-codegen
-        #     docker push docker.mfj.io/jsontypedef/jtd-codegen:$VERSION
-        #     docker rmi docker.mfj.io/jsontypedef/jtd-codegen:$VERSION
-        #   shell: bash
-        
-        # - name: Create Tag ${{ inputs.version }}
-        #   uses: rickstaa/action-create-tag@v1
-        #   id: tag-create
-        #   with:
-        #     tag: ${{ inputs.version }}
-        #     tag_exists_error: false
-        #     message: "Tagged publish source: ${{ inputs.version }}"
+  workflow-run:
+   secrets: inherit
+   uses: measuresforjustice/docker-builds/.github/workflows/build-and-push-single.yml@main
+   with:
+      image: jsontypedef/jtd-codegen
+      jdt-codegen-version: 'v0.4.1'
